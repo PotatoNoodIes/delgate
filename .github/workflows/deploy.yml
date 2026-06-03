@@ -31,8 +31,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: ".output/"
-          target: "/home/jose/delgate"
-          strip_components: 1
+          target: "/home/jose/delgate/.output"
           overwrite: true
 
       - name: SSH and Restart PM2
@@ -42,7 +41,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/jose/delgate
-            export PATH=$PATH:/usr/local/bin:/home/jose/.local/bin
-            pm2 restart delgate || pm2 start server/index.mjs --name delgate
+            export PATH=$PATH:/usr/local/bin:/home/jose/.nvm/versions/node/v22.22.0/bin
+            export NODE_ENV=production
+            export NITRO_PORT=3002
+            pm2 restart delgate || pm2 start /home/jose/delgate/.output/server/index.mjs --name delgate --env production
             pm2 save
