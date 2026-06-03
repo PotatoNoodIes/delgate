@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     },
   },
   app: {
+    baseURL: '/delgate/',
     head: {
       title: 'DelGate Freight Assistant',
       meta: [
