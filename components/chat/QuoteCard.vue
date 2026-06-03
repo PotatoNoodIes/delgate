@@ -37,7 +37,7 @@ async function downloadPDF() {
   downloadError.value = ''
 
   try {
-    const response = await fetch(`/api/quote/download?sessionId=${props.sessionId}`)
+    const response = await fetch(`/delgate/api/quote/download?sessionId=${props.sessionId}`)
     if (!response.ok) {
       const txt = await response.text()
       try {
@@ -77,7 +77,7 @@ async function sendEmail(target?: string) {
   emailSending.value = true
   emailStatus.value = 'idle'
   try {
-    await fetch('/api/quote/email', {
+    await fetch('/delgate/api/quote/email', {
       method: 'POST',
       body: JSON.stringify({ sessionId: props.sessionId, email }),
       headers: { 'Content-Type': 'application/json' },
@@ -101,7 +101,8 @@ async function sendEmail(target?: string) {
         <h2 class="qc-ref">#DLG-{{ qIdRef }}</h2>
         <p class="qc-date">{{ new Date(quote.createdAt).toLocaleDateString('en-CA', {
           year: 'numeric', month: 'long',
-          day: 'numeric' }) }}</p>
+          day: 'numeric'
+        }) }}</p>
       </div>
       <div class="qc-total-box">
         <p class="qc-eyebrow">Total incl. Tax</p>
