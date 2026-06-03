@@ -47,12 +47,16 @@ jobs:
       - name: SSH and Restart PM2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            export PATH=$PATH:/usr/local/bin:/home/jose/.nvm/versions/node/v22.22.0/bin
-            export NODE_ENV=production
-            export NITRO_PORT=3002
-            pm2 restart delgate || pm2 start /home/jose/delgate/.output/server/index.mjs --name delgate --env production
-            pm2 save
+            host: ${{ secrets.SERVER_IP }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+                export PATH=$PATH:/usr/local/bin:/home/jose/.nvm/versions/node/v22.22.0/bin
+                pm2 delete delgate || true
+                NITRO_PORT=3002 \
+                NODE_ENV=production \
+                GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
+                GOOGLE_MAPS_API_KEY="${{ secrets.GOOGLE_MAPS_API_KEY }}" \
+                CAD_TO_USD_RATE="${{ secrets.CAD_TO_USD_RATE }}" \
+                pm2 start /home/jose/delgate/.output/server/index.mjs --name delgate
+                pm2 save
