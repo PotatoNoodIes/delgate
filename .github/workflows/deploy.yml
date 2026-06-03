@@ -20,7 +20,8 @@ jobs:
         run: |
           npm install
           echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env
-          echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" > .env
+          echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> .env
+          echo "CAD_TO_USD_RATE=${{ secrets.CAD_TO_USD_RATE }}" >> .env
           npm run build
 
       - name: Copy Files to Server
@@ -29,8 +30,9 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ".output/*"
+          source: ".output/"
           target: "/home/jose/delgate"
+          strip_components: 1
           overwrite: true
 
       - name: SSH and Restart PM2
@@ -41,4 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/jose/delgate
-            pm2 restart delgate
+            export PATH=$PATH:/usr/local/bin:/home/jose/.local/bin
+            pm2 restart delgate || pm2 start server/index.mjs --name delgate
+            pm2 save
