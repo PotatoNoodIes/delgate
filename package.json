@@ -1,0 +1,30 @@
+{
+  "name": "delgate-freight-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^2.0.2",
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@types/leaflet": "^1.9.21",
+    "groq-sdk": "^1.2.1",
+    "leaflet": "^1.9.4",
+    "nodemailer": "^6.9.16",
+    "nuxt": "^3.13.2",
+    "pdf-lib": "^1.17.1",
+    "vue": "^3.5.13",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.17",
+    "@vue/test-utils": "^2.4.6",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
